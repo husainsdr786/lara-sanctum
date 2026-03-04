@@ -1,66 +1,228 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Lara Assessment – Production Ready Laravel 11 API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A production-ready RESTful API built using Laravel 11, Sanctum, and MySQL.
 
-## About Laravel
+This project demonstrates:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Clean Architecture
+- Service Layer Pattern
+- Proper Database Design
+- Concurrency Handling (Prevent Overselling)
+- Optimized Queries
+- Caching
+- Token-based Authentication
+- Structured JSON Responses
+- Feature Testing
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Tech Stack
 
-## Learning Laravel
+- PHP 8.2+
+- Laravel 11
+- MySQL
+- Laravel Sanctum
+- RESTful API Architecture
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 📦 Installation Guide
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 1️⃣ Clone Repository
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/your-username/lara-sanctum.git
+cd lara-sanctum
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2️⃣ Install Dependencies
+composer install
+3️⃣ Create Environment File
+cp .env.example .env
 
-### Premium Partners
+Generate application key:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+php artisan key:generate
+4️⃣ Configure Database
 
-## Contributing
+Update .env:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lara_assessment
+DB_USERNAME=root
+DB_PASSWORD=
+5️⃣ Run Migrations
+php artisan migrate:fresh
 
-## Code of Conduct
+If using seeders:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+php artisan migrate:fresh --seed
+6️⃣ Install Sanctum (If Fresh Setup)
+composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
+7️⃣ Start Server
+php artisan serve
 
-## Security Vulnerabilities
+Server runs at:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+http://127.0.0.1:8000
+🔐 Authentication
 
-## License
+Token-based authentication using Laravel Sanctum.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Login Endpoint
+POST /api/v1/login
+Request Body
+{
+  "email": "husain@test.com",
+  "password": "password"
+}
+Response
+{
+  "token": "1|xxxxxxxxxxxxxxxx"
+}
+
+Use this token in headers:
+
+Authorization: Bearer YOUR_TOKEN
+Accept: application/json
+
+📦 Order Creation API
+
+POST /api/v1/orders
+Headers
+
+Authorization: Bearer YOUR_TOKEN
+Accept: application/json
+
+Request Body
+{
+  "items": [
+    { "product_id": 1, "quantity": 2 },
+    { "product_id": 2, "quantity": 1 }
+  ]
+}
+
+Features
+
+Input validation
+
+Product existence check
+
+Stock validation
+
+18% tax calculation
+
+Snapshot price storage
+
+Database transactions
+
+Row-level locking (lockForUpdate)
+
+Prevents overselling
+
+Structured JSON response
+
+📊 Analytics API
+GET /api/v1/analytics/top-spenders
+
+Returns
+
+Top 5 users
+
+Total amount spent
+
+Number of orders
+
+Pagination support
+
+Cached for 60 seconds
+
+Optimized SQL (No N+1 queries)
+
+🧠 Architecture
+app/
+ ├── Services/
+ ├── Exceptions/
+ ├── Http/
+ │    ├── Controllers/Api
+ │    ├── Requests
+ │    ├── Resources
+ ├── Models
+Principles Used
+
+Thin Controllers
+
+Service Layer Pattern
+
+Form Request Validation
+
+Centralized Exception Handling
+
+RESTful Structure
+
+Clean Naming Conventions
+
+🔄 Concurrency Handling
+
+To prevent overselling:
+
+Database transaction used
+
+lockForUpdate() applied
+
+Atomic stock decrement
+
+Indexed columns
+
+🧪 Running Tests
+php artisan test
+
+Feature tests cover:
+
+Authentication
+
+Order creation
+
+Stock validation
+
+API responses
+
+🛠 Useful Commands
+
+Clear cache:
+
+php artisan optimize:clear
+
+Re-run migrations:
+
+php artisan migrate:fresh
+
+⚠ Important Notes
+
+Always send Accept: application/json header for API routes.
+
+Do not test protected routes directly in browser.
+
+Use Postman or similar tool.
+
+🚀 Production Deployment Tips
+
+Use Nginx + PHP-FPM
+
+Enable OPcache
+
+Use Redis for caching
+
+Run queue workers via Supervisor
+
+Set APP_ENV=production
+
+Disable debug mode
+
+👨‍💻 Author
+
+Athar Husain
+Senior PHP / Laravel Developer
